@@ -17,7 +17,7 @@
         <link rel="next" href="../getting-started/setup/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
     
     
       
@@ -2505,6 +2505,7 @@ go<span class="w"> </span>get<span class="w"> </span>-u<span class="w"> </span>g
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/go/src/github.com/argoproj/argo-rollouts
 go<span class="w"> </span>run<span class="w"> </span>./cmd/rollouts-controller/main.go
 </code></pre></div>
+<p>When running locally it will connect to whatever kubernetes cluster you have configured in your kubeconfig. You will need to make sure to install the Argo Rollout CRDs into your local cluster, and have the <code>argo-rollouts</code> namespace.</p>
 <h2 id="running-unit-tests">Running Unit Tests<a class="headerlink" href="#running-unit-tests" title="Permanent link">&para;</a></h2>
 <p>To run unit tests:</p>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span><span class="nb">test</span>
@@ -2649,7 +2650,7 @@ associated repos have to pinned to the correct version specified by the kubernet
     <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../assets/javascripts/bundle.b4d07000.min.js"></script>
       
         <script src="../assets/versions.js"></script>
       
