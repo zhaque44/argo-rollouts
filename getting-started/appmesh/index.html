@@ -17,7 +17,7 @@
         <link rel="next" href="../istio/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
     
     
       
@@ -25,10 +25,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
       
       
 
@@ -904,6 +904,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../features/traffic-management/kong/" class="md-nav__link">
+        Kong
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../features/traffic-management/nginx/" class="md-nav__link">
         NGINX
       </a>
@@ -1038,7 +1052,7 @@
   
     <li class="md-nav__item">
       <a href="../../analysis/datadog/" class="md-nav__link">
-        DataDog
+        Datadog
       </a>
     </li>
   
@@ -2409,7 +2423,9 @@ respectively. In addition, there is a virtual-service named <code>rollout-demo-v
 virtual-router CR named <code>rollout-demo-vrouter</code>. This virtual-router need have at least one route with action to forward
 traffic to the canary and stable virtual-nodes. Initially weight for canary is set to 0% while for stable it is 100%.
 During rollout, controller will modify the weights on route(s) based on the configuraiton defined in
-<code>steps[N].setWeight</code>. </p>
+<code>steps[N].setWeight</code>.</p>
+<p>The canary and stable services are configured to be headless. This is necessary to allow App Mesh to properly handle
+conneciton pooling as pods are reassigned from canary to stable.</p>
 <p>To summarize, run the following commands to deploy a service:</p>
 <ul>
 <li>Two services (stable and canary)</li>
@@ -2419,8 +2435,8 @@ During rollout, controller will modify the weights on route(s) based on the conf
 <li>One App Mesh virtual-service corresponding to VIP service</li>
 <li>A rollout</li>
 </ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/argoproj/argo-rollouts/master/docs/getting-started/appmesh/canary-service.yaml
-kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/argoproj/argo-rollouts/master/docs/getting-started/appmesh/canary-rollout.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/argoproj/argo-rollouts/master/examples/appmesh/canary-service.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/argoproj/argo-rollouts/master/examples/appmesh/canary-rollout.yaml
 </code></pre></div>
 <h2 id="2-verify-service">2. Verify service<a class="headerlink" href="#2-verify-service" title="Permanent link">&para;</a></h2>
 <p>First make sure that rollout is stable.</p>
@@ -2497,9 +2513,11 @@ watch<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;kub
     <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b425cdc4.min.js"></script>
       
-        <script src="../../assets/versions.js"></script>
+        
+          <script src="../../assets/versions.js"></script>
+        
       
     
   </body>
