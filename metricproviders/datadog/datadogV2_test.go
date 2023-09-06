@@ -3,9 +3,9 @@ package datadog
 import (
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"os"
 	"testing"
 
@@ -19,10 +19,12 @@ import (
 	kubetesting "k8s.io/client-go/testing"
 )
 
-func TestRunSuiteV2(t *testing.T) {
+const (
+	expectedApiKey = "0123456789abcdef0123456789abcdef"
+	expectedAppKey = "0123456789abcdef0123456789abcdef01234567"
+)
 
-	const expectedApiKey = "0123456789abcdef0123456789abcdef"
-	const expectedAppKey = "0123456789abcdef0123456789abcdef01234567"
+func TestRunSuiteV2(t *testing.T) {
 
 	unixNow = func() int64 { return 1599076435 }
 
@@ -240,7 +242,7 @@ func TestRunSuiteV2(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 
 				//Check query variables
-				bodyBytes, err := ioutil.ReadAll(req.Body)
+				bodyBytes, err := io.ReadAll(req.Body)
 				if err != nil {
 					t.Errorf("\nreceived no bytes in request: %v", err)
 				}
@@ -353,4 +355,33 @@ func TestRunSuiteV2(t *testing.T) {
 		}
 
 	}
+}
+
+func TestCreateRequestV2WithFormula(t *testing.T) {
+	fakeClient := k8sfake.NewSimpleClientset(&corev1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: DatadogTokensSecretName,
+		},
+		Data: map[string][]byte{
+			"address": []byte("https://api.datadoghq.com"),
+			"api-key": []byte(expectedApiKey),
+			"app-key": []byte(expectedAppKey),
+		},
+	})
+
+	provider, _ := NewDatadogProvider(*log.WithField("test", "test"), fakeClient)
+
+	queries := map[string]string{
+		"query1": "avg:example.metric1{*}",
+		"query2": "sum:example.metric2{*}",
+	}
+	formula := "avg(query1) + avg(query2)"
+	now := int64(12345)
+	interval := int64(300)
+	url := &url.URL{}
+
+	request, err := provider.createRequestV2(queries, formula, now, interval, url)
+
+	assert.Nil(t, err, "Expected no error, but got an error")
+	assert.NotNil(t, request, "Expected request to be not nil, but it's nil")
 }
