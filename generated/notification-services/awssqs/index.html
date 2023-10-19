@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://argo-rollouts.readthedocs.io/generated/notification-services/telegram/">
+        <link rel="canonical" href="https://argo-rollouts.readthedocs.io/generated/notification-services/awssqs/">
       
       
-        <link rel="prev" href="../teams/">
+        <link rel="prev" href="../alertmanager/">
       
       
-        <link rel="next" href="../webex/">
+        <link rel="next" href="../email/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Telegram - Argo Rollouts - Kubernetes Progressive Delivery Controller</title>
+        <title>AWS SQS - Argo Rollouts - Kubernetes Progressive Delivery Controller</title>
       
     
     
@@ -89,7 +89,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#telegram" class="md-skip">
+        <a href="#aws-sqs" class="md-skip">
           Skip to content
         </a>
       
@@ -124,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Telegram
+              AWS SQS
             
           </span>
         </div>
@@ -1606,9 +1606,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../awssqs/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    AWS SQS
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1617,6 +1637,60 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-secret-for-credential-retrieval" class="md-nav__link">
+    Using Secret for credential retrieval:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimal-configuration-using-aws-env-variables" class="md-nav__link">
+    Minimal configuration using AWS Env variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1906,18 +1980,9 @@
                 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../telegram/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1926,7 +1991,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -3133,6 +3197,48 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-secret-for-credential-retrieval" class="md-nav__link">
+    Using Secret for credential retrieval:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimal-configuration-using-aws-env-variables" class="md-nav__link">
+    Minimal configuration using AWS Env variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3149,37 +3255,96 @@
   
 
 
-<h1 id="telegram">Telegram<a class="headerlink" href="#telegram" title="Permanent link">&para;</a></h1>
-<ol>
-<li>Get an API token using <a href="https://t.me/Botfather">@Botfather</a>.</li>
-<li>Store token in <code>&lt;secret-name&gt;</code> Secret and configure telegram integration
-in <code>&lt;config-map-name&gt;</code> ConfigMap:</li>
-</ol>
+<h1 id="aws-sqs">AWS SQS<a class="headerlink" href="#aws-sqs" title="Permanent link">&para;</a></h1>
+<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h2>
+<p>This notification service is capable of sending simple messages to AWS SQS queue. </p>
+<ul>
+<li><code>queue</code> - name of the queue you are intending to send messages to. Can be overwriten with target destination annotation.</li>
+<li><code>region</code> - region of the sqs queue can be provided via env variable AWS_DEFAULT_REGION</li>
+<li><code>key</code> - optional, aws access key must be either referenced from a secret via variable or via env variable AWS_ACCESS_KEY_ID</li>
+<li><code>secret</code> - optional, aws access secret must be either referenced from a secret via variableor via env variable AWS_SECRET_ACCESS_KEY</li>
+<li><code>account</code> optional, external accountId of the queue</li>
+<li><code>endpointUrl</code> optional, useful for development with localstack</li>
+</ul>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<h3 id="using-secret-for-credential-retrieval">Using Secret for credential retrieval:<a class="headerlink" href="#using-secret-for-credential-retrieval" title="Permanent link">&para;</a></h3>
+<p>Resource Annotation:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-deployment</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">notifications.argoproj.io/subscribe.on-deployment-ready.awssqs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite-myqueue&quot;</span>
+</code></pre></div></p>
+<ul>
+<li>ConfigMap
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;config-map-name&gt;</span>
 <span class="nt">data</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">service.telegram</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">    </span><span class="no">token: $telegram-token</span>
+<span class="w">  </span><span class="nt">service.awssqs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">region: &quot;us-east-2&quot;</span>
+<span class="w">    </span><span class="no">queue: &quot;myqueue&quot;</span>
+<span class="w">    </span><span class="no">account: &quot;1234567&quot;</span>
+<span class="w">    </span><span class="no">key: &quot;$awsaccess_key&quot;</span>
+<span class="w">    </span><span class="no">secret: &quot;$awsaccess_secret&quot;</span>
+
+<span class="w">  </span><span class="nt">template.deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">message: |</span>
+<span class="w">      </span><span class="no">Deployment {{.obj.metadata.name}} is ready!</span>
+
+<span class="w">  </span><span class="nt">trigger.on-deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">- when: any(obj.status.conditions, {.type == &#39;Available&#39; &amp;&amp; .status == &#39;True&#39;})</span>
+<span class="w">      </span><span class="no">send: [deployment-ready]</span>
+<span class="w">    </span><span class="no">- oncePer: obj.metadata.annotations[&quot;generation&quot;]</span>
 </code></pre></div>
-<ol>
-<li>Create new Telegram <a href="https://telegram.org/blog/channels">channel</a>.</li>
-<li>Add your bot as an administrator.</li>
-<li>Use this channel <code>username</code> (public channel) or <code>chatID</code> (private channel) in the subscription for your Telegram integration:</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argoproj.io/v1alpha1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span>
+ Secret
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
 <span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">notifications.argoproj.io/subscribe.on-sync-succeeded.telegram</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">username</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;secret-name&gt;</span>
+<span class="nt">stringData</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">awsaccess_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+<span class="w">  </span><span class="nt">awsaccess_secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+</code></pre></div></li>
+</ul>
+<h3 id="minimal-configuration-using-aws-env-variables">Minimal configuration using AWS Env variables<a class="headerlink" href="#minimal-configuration-using-aws-env-variables" title="Permanent link">&para;</a></h3>
+<p>Ensure following list of enviromental variable is injected via OIDC, or other method. And assuming SQS is local to the account.
+You may skip usage of secret for sensitive data and omit other parameters. (Setting parameters via ConfigMap takes precedent.)</p>
+<p>Variables:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&quot;test&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;test&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_DEFAULT_REGION</span><span class="o">=</span><span class="s2">&quot;us-east-1&quot;</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argoproj.io/v1alpha1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span>
+<p>Resource Annotation:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
 <span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-deployment</span>
 <span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">notifications.argoproj.io/subscribe.on-sync-succeeded.telegram</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1000000000000</span>
-</code></pre></div>
+<span class="w">    </span><span class="nt">notifications.argoproj.io/subscribe.on-deployment-ready.awssqs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+</code></pre></div></p>
+<ul>
+<li>ConfigMap
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;config-map-name&gt;</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">service.awssqs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">queue: &quot;myqueue&quot;</span>
+
+<span class="w">  </span><span class="nt">template.deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">message: |</span>
+<span class="w">      </span><span class="no">Deployment {{.obj.metadata.name}} is ready!</span>
+
+<span class="w">  </span><span class="nt">trigger.on-deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">- when: any(obj.status.conditions, {.type == &#39;Available&#39; &amp;&amp; .status == &#39;True&#39;})</span>
+<span class="w">      </span><span class="no">send: [deployment-ready]</span>
+<span class="w">    </span><span class="no">- oncePer: obj.metadata.annotations[&quot;generation&quot;]</span>
+</code></pre></div></li>
+</ul>
 
 
   
